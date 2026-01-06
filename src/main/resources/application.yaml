@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: spring-security-practice
+
+logging:
+  level:
+    org:
+      springframework:
+        security: TRACE
