@@ -1,8 +1,8 @@
 -- Seed Users
 INSERT INTO users (username, password, enabled)
 VALUES
-    ('admin', 'admin_secret', true),
-    ('alice', 'alice_pass', true);
+    ('admin', '{text}admin_secret', true),
+    ('alice', '{text}alice_pass', true);
 
 -- Seed Authorities
 INSERT INTO authorities (username, authority)
