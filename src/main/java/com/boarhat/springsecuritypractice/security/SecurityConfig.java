@@ -1,32 +1,17 @@
 package com.boarhat.springsecuritypractice.security;
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password4j.ScryptPassword4jPasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-
-import javax.sql.DataSource;
-import java.util.Map;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public UserDetailsService userDetailsService(DataSource dataSource) {
-        return new JdbcUserDetailsManager(dataSource);
+    @Autowired
+    public void configure(AuthenticationManagerBuilder builder, AuthenticationProvider authenticationProvider) {
+        builder.authenticationProvider(authenticationProvider)
+                .eraseCredentials(false);
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        Map<String, PasswordEncoder> encoders = Map.of(
-                "text", new PlainTextPasswordEncoder(),
-                "bcrypt", new BCryptPasswordEncoder()
-        );
-
-        return new DelegatingPasswordEncoder("bcrypt", encoders);
-    }
 }
