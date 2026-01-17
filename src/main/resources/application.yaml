@@ -7,10 +7,14 @@ spring:
     username: user
     password: password
 
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+
   sql:
     init:
       mode: always
-      continue-on-error: false
 
 logging:
   level:
