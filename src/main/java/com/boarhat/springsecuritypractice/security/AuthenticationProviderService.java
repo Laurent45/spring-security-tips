@@ -8,7 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -18,12 +18,12 @@ public class AuthenticationProviderService implements AuthenticationProvider {
 
     private final JpaUserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final SCryptPasswordEncoder scryptPasswordEncoder;
+    private final Pbkdf2PasswordEncoder pbkdf2PasswordEncoder;
 
-    public AuthenticationProviderService(JpaUserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder, SCryptPasswordEncoder scryptPasswordEncoder) {
+    public AuthenticationProviderService(JpaUserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder, Pbkdf2PasswordEncoder pbkdf2PasswordEncoder) {
         this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.scryptPasswordEncoder = scryptPasswordEncoder;
+        this.pbkdf2PasswordEncoder = pbkdf2PasswordEncoder;
     }
 
 
@@ -36,7 +36,7 @@ public class AuthenticationProviderService implements AuthenticationProvider {
 
         boolean isValidPassword = switch (userDetails.getEncryptionAlgorithm()) {
             case BCRYPT -> bCryptPasswordEncoder.matches(password, userDetails.getPassword());
-            case SCRYPT -> scryptPasswordEncoder.matches(password, userDetails.getPassword());
+            case PBKDF2 -> pbkdf2PasswordEncoder.matches(password, userDetails.getPassword());
         };
 
         if (!isValidPassword) {
