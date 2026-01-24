@@ -7,8 +7,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -17,15 +16,12 @@ import java.util.Objects;
 public class AuthenticationProviderService implements AuthenticationProvider {
 
     private final JpaUserDetailsService userDetailsService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final Pbkdf2PasswordEncoder pbkdf2PasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthenticationProviderService(JpaUserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder, Pbkdf2PasswordEncoder pbkdf2PasswordEncoder) {
+    public AuthenticationProviderService(JpaUserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         this.userDetailsService = userDetailsService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.pbkdf2PasswordEncoder = pbkdf2PasswordEncoder;
+        this.passwordEncoder = passwordEncoder;
     }
-
 
     @Override
     public @Nullable Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -34,12 +30,7 @@ public class AuthenticationProviderService implements AuthenticationProvider {
 
         CustomUserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-        boolean isValidPassword = switch (userDetails.getEncryptionAlgorithm()) {
-            case BCRYPT -> bCryptPasswordEncoder.matches(password, userDetails.getPassword());
-            case PBKDF2 -> pbkdf2PasswordEncoder.matches(password, userDetails.getPassword());
-        };
-
-        if (!isValidPassword) {
+        if (!passwordEncoder.matches(password, userDetails.getPassword())) {
             throw new BadCredentialsException("Invalid username or password");
         }
 

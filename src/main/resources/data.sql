@@ -7,9 +7,9 @@ VALUES ('READ'),
 -- 2. Insert Users
 -- Passwords shown are dummy hashes for 'password123'
 INSERT INTO users (username, password, algorithm)
-VALUES ('john_doe', '$2a$10$WnrWA6v.zdyi6KPg52ad/OnHWVOJnvadnZP6hvSMp5uERlUK7bdoC', 'BCRYPT'),
-       ('jane_admin', '$2a$10$WnrWA6v.zdyi6KPg52ad/OnHWVOJnvadnZP6hvSMp5uERlUK7bdoC', 'BCRYPT'),
-       ('dev_user', '7d54b16004ac2cf03ffcb9996698fda8308936ce3eeacc7e004ab761ed8c23616d7e59c053f8c861b1896048162febd6', 'PBKDF2');
+VALUES ('john_doe', '{bcrypt}$2a$10$WnrWA6v.zdyi6KPg52ad/OnHWVOJnvadnZP6hvSMp5uERlUK7bdoC', 'BCRYPT'),
+       ('jane_admin', '{bcrypt}$2a$10$WnrWA6v.zdyi6KPg52ad/OnHWVOJnvadnZP6hvSMp5uERlUK7bdoC', 'BCRYPT'),
+       ('dev_user', '{pbkdf2}7d54b16004ac2cf03ffcb9996698fda8308936ce3eeacc7e004ab761ed8c23616d7e59c053f8c861b1896048162febd6', 'PBKDF2');
 
 -- 3. Link Users to Authorities
 INSERT INTO user_authorities (user_id, authority_id)
