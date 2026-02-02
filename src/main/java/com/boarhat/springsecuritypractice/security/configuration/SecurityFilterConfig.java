@@ -2,6 +2,7 @@ package com.boarhat.springsecuritypractice.security.configuration;
 
 import com.boarhat.springsecuritypractice.security.filter.AuthenticationLoggingFilter;
 import com.boarhat.springsecuritypractice.security.filter.RequestValidationFilter;
+import com.boarhat.springsecuritypractice.security.filter.StaticKeyAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,10 +14,17 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @EnableWebSecurity
 public class SecurityFilterConfig {
 
+    private final StaticKeyAuthenticationFilter staticKeyAuthenticationFilter;
+
+    public SecurityFilterConfig(StaticKeyAuthenticationFilter staticKeyAuthenticationFilter) {
+        this.staticKeyAuthenticationFilter = staticKeyAuthenticationFilter;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         return http
                 .addFilterBefore(new RequestValidationFilter(), BasicAuthenticationFilter.class)
+                .addFilterAt(staticKeyAuthenticationFilter, BasicAuthenticationFilter.class)
                 .addFilterAfter(new AuthenticationLoggingFilter(), BasicAuthenticationFilter.class)
 /*                .formLogin(formLogin -> {
                     formLogin.defaultSuccessUrl("/main", true);
