@@ -1,5 +1,6 @@
 package com.boarhat.springsecuritypractice.security.configuration;
 
+import com.boarhat.springsecuritypractice.security.filter.AuthenticationLoggingFilter;
 import com.boarhat.springsecuritypractice.security.filter.RequestValidationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,7 @@ public class SecurityFilterConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         return http
                 .addFilterBefore(new RequestValidationFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(new AuthenticationLoggingFilter(), BasicAuthenticationFilter.class)
 /*                .formLogin(formLogin -> {
                     formLogin.defaultSuccessUrl("/main", true);
                 })
