@@ -36,6 +36,15 @@ public class Product {
     }
 
     @Override
+    public String toString() {
+        return "Product{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                ", currency=" + currency +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (!(o instanceof Product product)) return false;
         return Objects.equals(name, product.name);
