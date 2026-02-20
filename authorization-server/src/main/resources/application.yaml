@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: authorization-server
+
+  datasource:
+    url: jdbc:postgresql://localhost/auth-db
+    username: spring-user
+    password: spring-password
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+  sql:
+    init:
+      mode: always
