@@ -1,0 +1,9 @@
+services:
+  db:
+    image: postgres:18.2-alpine3.23
+    environment:
+      POSTGRES_USER: spring-user
+      POSTGRES_PASSWORD: spring-password
+      POSTGRES_DB: auth-db
+    ports:
+      - "5432:5432"
