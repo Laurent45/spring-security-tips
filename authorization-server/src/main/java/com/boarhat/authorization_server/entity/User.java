@@ -26,6 +26,10 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof User user)) return false;

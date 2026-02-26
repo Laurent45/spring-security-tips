@@ -27,6 +27,10 @@ public class Otp {
         this.code = code;
     }
 
+    public String getCode() {
+        return code;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Otp otp)) return false;
